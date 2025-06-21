@@ -26,10 +26,12 @@ app.post('/api/reviews', (req, res) => {
   if (fs.existsSync(DATA_FILE)) {
     reviews = JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
   }
+  const now = new Date();
+  const koreaTime = new Date(now.getTime() + (9 * 60 - now.getTimezoneOffset()) * 60000);
   const newReview = {
     id: Date.now().toString(),
     text: req.body.text,
-    date: new Date().toLocaleString('ko-KR')
+    date: koreaTime.toLocaleString('ko-KR')
   };
   reviews.unshift(newReview);
   fs.writeFileSync(DATA_FILE, JSON.stringify(reviews, null, 2));
